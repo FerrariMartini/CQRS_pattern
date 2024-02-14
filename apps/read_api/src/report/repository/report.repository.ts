@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IReportRepository } from './report.repository.interface';
 import { WeatherAgggregationDto } from './dto/weather.aggregation.dto';
-import { Weather } from 'apps/write_api/src/sensor/model/weather.schema';
+import { Weather } from './weather.schema';
 
 interface IBuildAggregationParams {
   sensorIds?: string[];

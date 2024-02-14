@@ -1,5 +1,5 @@
-import { Weather } from 'apps/write_api/src/sensor/model/weather.schema';
 import { WeatherAgggregationDto } from '../repository/dto/weather.aggregation.dto';
+import { Weather } from '../repository/weather.schema';
 
 export class ReportModel {
   private avgTemperature: number;
