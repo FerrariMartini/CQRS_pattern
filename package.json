@@ -7,6 +7,10 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
+    "build:write_api": "nest build write_api",
+    "build:read_api": "nest build read_api",
+    "build:all": "npm run build:write_api && npm run build:read_api",
+    "start:read": "nest start read_api",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",

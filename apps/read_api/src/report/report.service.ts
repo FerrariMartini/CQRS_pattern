@@ -12,10 +12,9 @@ export class ReportService {
     endDate: string,
   ): Promise<ReportModel> {
     const parsedIds = ids.split(',');
-    const parsedStartDate = startDate
-      ? new Date(startDate)
-      : this.createStartDate();
-    const parsedEndDate = endDate ? new Date(endDate) : this.createEndDate();
+    const parsedStartDate = this.createStartDate(startDate);
+    const parsedEndDate = this.createEndDate(startDate, endDate);
+
     const weatherData = await this.repository.getWeatherBySensorIds(
       parsedIds,
       parsedStartDate,
@@ -31,10 +30,8 @@ export class ReportService {
     startDate: string,
     endDate: string,
   ): Promise<ReportModel> {
-    const parsedStartDate = startDate
-      ? new Date(startDate)
-      : this.createStartDate();
-    const parsedEndDate = endDate ? new Date(endDate) : this.createEndDate();
+    const parsedStartDate = this.createStartDate(startDate);
+    const parsedEndDate = this.createEndDate(startDate, endDate);
 
     const weatherData = await this.repository.getWeatherbyAllSensorIds(
       parsedStartDate,
@@ -47,20 +44,24 @@ export class ReportService {
     return new ReportModel(weatherData[0]);
   }
 
-  private createStartDate() {
-    const today = new Date();
-    return new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  private createStartDate(startDate: string) {
+    if (!startDate) {
+      const today = new Date();
+      today.setUTCHours(0, 0, 0, 0);
+      return today as Date;
+    }
+    return new Date(startDate);
   }
-  private createEndDate() {
-    const today = new Date();
-    return new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate(),
-      23,
-      59,
-      59,
-      999,
-    );
+
+  private createEndDate(startDate: string, endDate: string) {
+    if (!startDate || !endDate) {
+      const todayEnd = new Date();
+      todayEnd.setUTCHours(23, 59, 59, 999);
+      return todayEnd as Date;
+    }
+
+    const dateEnd = new Date(endDate);
+    dateEnd.setUTCHours(23, 59, 59, 999);
+    return dateEnd as Date;
   }
 }
